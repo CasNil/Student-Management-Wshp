@@ -17,13 +17,11 @@ public class ScannerInputService implements UserInputService {
 
     @Override
     public String getString() {
-        System.out.println("Enter a string: ");
         return scanner.nextLine();
     }
 
     @Override
     public int getInt() {
-        System.out.println("Enter an integer: ");
         return scanner.nextInt();
     }
 }

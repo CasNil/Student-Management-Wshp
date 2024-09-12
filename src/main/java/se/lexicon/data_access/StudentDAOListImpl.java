@@ -1,5 +1,6 @@
 package se.lexicon.data_access;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.lexicon.models.Student;
 
@@ -9,8 +10,12 @@ import java.util.List;
 
 @Component
 public class StudentDAOListImpl implements StudentDAO {
+    private List<Student> students;
 
-    List<Student> students;
+    @Autowired
+    public StudentDAOListImpl() {
+        this.students = new ArrayList<>();
+    }
 
     @Override
     public Student save(Student student) {
@@ -20,7 +25,10 @@ public class StudentDAOListImpl implements StudentDAO {
 
     @Override
     public Student find(int id) {
-        return students.stream().filter(student -> student.getId() == id).findFirst().orElse(null);
+        return students.stream()
+                .filter(student -> student.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 
     @Override

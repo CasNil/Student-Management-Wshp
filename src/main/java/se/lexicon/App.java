@@ -1,21 +1,29 @@
 package se.lexicon;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import se.lexicon.config.ScannerBeanConfig;
-import se.lexicon.util.UserInputService;
+import se.lexicon.config.ComponentScanConfig;
+import se.lexicon.models.Student;
+import se.lexicon.service.StudentManagement;
+import se.lexicon.service.StudentManagementConsoleImpl;
+
+import java.util.List;
 
 public class App {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext(ScannerBeanConfig.class);
+                new AnnotationConfigApplicationContext(ComponentScanConfig.class);
 
-        UserInputService userInputService = context.getBean(UserInputService.class);
+        StudentManagement studentManagement =
+                context.getBean(StudentManagementConsoleImpl.class);
 
-        String input = userInputService.getString();
-        System.out.println("Your entered: " + input);
+        studentManagement.save(new Student("Casper Nilsson"));
+        studentManagement.save(new Student("Oscar Svensson"));
+        studentManagement.save(new Student("Adam Karlsson"));
 
-        int number = userInputService.getInt();
-        System.out.println("You entered the number: " + number);
+
+        List<Student> students = studentManagement.findAll();
+        System.out.println("All students: ");
+        students.forEach(System.out::println);
 
         context.close();
     }
